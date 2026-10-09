@@ -44,8 +44,35 @@ class UsuarioDAO:
                 cursor.close()
                 self.db.desconectar()
 
+    def autenticar_usuario(self, username, password):
+        conexion = self.db.conectar()
+        if conexion:
+            try:
+                cursor = conexion.cursor(dictionary=True)
+                sql = """
+                    select * from usuarios where username = %s
+                    and password_hash = SHA2(%s,256)
+                """
+                valores = (username, password)
+                cursor.execute(sql, valores)
+
+                resultado = cursor.fetchone()
+                if resultado:
+                    print(f"Usuario {username} autenticado con exito")
+                else:
+                    print(f"Usuario {username} incorrecto")
+
+                return resultado
+            except Exception as e:
+                print(e)
+            finally:
+                cursor.close()
+                self.db.desconectar()
+
+
 if __name__ == '__main__':
     dao = UsuarioDAO()
+    """
     dao.registrar_usuario(username="edu_admin",
         email="edu@correo.com",
         password="password123",
@@ -56,5 +83,7 @@ if __name__ == '__main__':
         rfc="ROGE050704XXX",
         telefono="4451234567",
         tarjeta_credito="4152313456789012")
+    """
 
+    dao.autenticar_usuario("edu_admin","password123")
 
