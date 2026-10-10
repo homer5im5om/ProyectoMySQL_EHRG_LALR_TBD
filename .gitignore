@@ -1,4 +1,12 @@
 .venv/
-.idea/
-__pycache__/
+**/.venv/
 .env
+Frontend/.env
+
+__pycache__/
+*.py[cod]
+
+.idea/
+.vscode/
+
+*.log

@@ -13,7 +13,6 @@ import database as persistencia
 
 
 class UsuarioDAO:
-
     def autenticar(self, identificador: str, contrasena: str) -> dict[str, Any] | None:
         return persistencia.autenticar(identificador, contrasena)
 
