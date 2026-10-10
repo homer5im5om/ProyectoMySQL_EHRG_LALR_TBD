@@ -7,9 +7,9 @@ carpeta = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, carpeta)
 sys.path.insert(0, os.path.join(carpeta, "backend"))
 
-from UsuarioDAO import UsuarioDAO
-from Frontend.usuarios_admin import VentanaAdministrador
-from Frontend.usuarios_usuario import VentanaUsuario
+from backend.UsuarioDAO import UsuarioDAO
+from frontend.usuarios_admin import VentanaAdministrador
+from frontend.usuarios_usuario import VentanaUsuario
 
 
 class LoginApp(tk.Tk):

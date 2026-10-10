@@ -149,8 +149,19 @@ class UsuarioDAO:
                 resultado = cursor.fetchone()
                 if resultado:
                     print(f"Usuario {username} autenticado con exito")
+
+                    sql_update = "UPDATE usuarios SET ultimo_acceso = NOW(), intentos_fallidos = 0 WHERE id = %s"
+                    cursor.execute(sql_update, (resultado['id'],))
+                    conexion.commit()
                 else:
                     print(f"Usuario {username} incorrecto")
+                    sql_fallo = """
+                                UPDATE usuarios
+                                SET intentos_fallidos = IFNULL(intentos_fallidos, 0) + 1
+                                WHERE username = %s \
+                                """
+                    cursor.execute(sql_fallo, (username,))
+                    conexion.commit()
 
                 return resultado
             except Exception as e:
@@ -163,17 +174,16 @@ class UsuarioDAO:
 if __name__ == '__main__':
     dao = UsuarioDAO()
     """
-    dao.registrar_usuario(username="edu_admin",
-        email="edu@correo.com",
-        password="password123",
-        nombre="Edu Humberto",
-        apellido="Rosiles",
-        fecha_nacimiento="2005-07-04",
-        rol="administrador",
-        rfc="ROGE050704XXX",
-        telefono="4451234567",
-        tarjeta_credito="4152313456789012")
+    dao.registrar_usuario(username="german",
+        email="german@correo.com",
+        password="root",
+        nombre="German",
+        apellido="Gutierrez",
+        fecha_nacimiento="2000-09-01",
+        rol="cliente",
+        rfc="ROGE0500901XXX",
+        telefono="4457620921",
+        tarjeta_credito="4152313438209193")
     """
 
-    dao.autenticar_usuario("edu_admin","password123")
 
